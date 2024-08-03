@@ -43,10 +43,7 @@ async function recordClaim(address: string) {
 async function sendTransaction(toAddress: string) {
   const hasClaimedRecently = await hasClaimed(toAddress);
   if (hasClaimedRecently) {
-    console.log(
-      `Address ${toAddress} has already claimed in the last 24 hours.`
-    );
-    return;
+    throw new Error("Address has already claimed in the last 24 hours.");
   }
 
   const tx = {
@@ -80,8 +77,8 @@ export async function claimTokens(
   }
   console.log(`Claiming tokens for address: ${address}`);
   try {
-    // await sendTransaction(address);
-    await new Promise((resolve) => setTimeout(resolve, 3000));
+    await sendTransaction(address);
+    // await new Promise((resolve) => setTimeout(resolve, 3000));
     return { success: true, message: "Tokens claimed successfully." };
   } catch (error: any) {
     return { message: error.message, success: false };
