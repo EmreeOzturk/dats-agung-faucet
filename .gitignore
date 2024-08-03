@@ -6,9 +6,11 @@
 .pnp.js
 .yarn/install-state.gz
 
+# claims.json file
+claims.json
+
 # testing
 /coverage
-
 # next.js
 /.next/
 /out/
@@ -34,3 +36,5 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+
