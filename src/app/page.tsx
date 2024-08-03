@@ -46,7 +46,7 @@ const Home = () => {
         success: true,
       });
     }
-    if (!state.success) {
+    if (!state.success && state.message) {
       setNotification({
         id: Math.random(),
         text: state.message!,
