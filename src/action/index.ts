@@ -1,5 +1,6 @@
 "use server";
 
+export const maxDuration = 50000;
 import { ethers } from "ethers";
 import fs from "fs";
 
