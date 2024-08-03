@@ -43,12 +43,14 @@ const Home = () => {
       setNotification({
         id: Math.random(),
         text: state.message!,
+        success: true,
       });
     }
     if (!state.success) {
       setNotification({
         id: Math.random(),
         text: state.message!,
+        success: false,
       });
     }
   } // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -97,7 +99,6 @@ const Home = () => {
         <StackedNotifications
           notification={notification}
           setNotification={setNotification}
-          text={state.message!}
         />
 
       </div>
