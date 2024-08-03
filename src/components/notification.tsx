@@ -1,10 +1,10 @@
 "use client"
 import { AnimatePresence, motion } from "framer-motion";
-import { X, CircleAlert } from "lucide-react"
-import { useEffect, useState } from "react";
+import { X, CircleAlert, Check } from "lucide-react"
+import { useEffect } from "react";
 
 const StackedNotifications = (
-    { setNotification, notification, text }: { notification: any, setNotification: any, text: string }
+    { setNotification, notification }: { notification: any, setNotification: any }
 ) => {
 
 
@@ -13,18 +13,15 @@ const StackedNotifications = (
     };
 
     return (
-        <div className="bg-slate-900 min-h-[200px] flex items-center justify-center">
-            <AnimatePresence>
-                {notification && (
-                    <Notification
-                        removeNotif={removeNotif}
-                        key={notification.id}
-                        text={text}
-                        {...notification}
-                    />
-                )}
-            </AnimatePresence>
-        </div>
+        <AnimatePresence>
+            {notification && (
+                <Notification
+                    removeNotif={removeNotif}
+                    key={notification.id}
+                    {...notification}
+                />
+            )}
+        </AnimatePresence>
     );
 };
 
@@ -33,13 +30,15 @@ const NOTIFICATION_TTL = 5000;
 export type NotificationType = {
     id: number;
     text: string;
+    success: boolean;
 };
 
 const Notification = ({
     text,
     id,
     removeNotif,
-}: NotificationType & { removeNotif: Function }) => {
+    success,
+}: NotificationType & { removeNotif: Function, success: boolean }) => {
     useEffect(() => {
         const timeoutRef = setTimeout(() => {
             removeNotif();
@@ -56,12 +55,12 @@ const Notification = ({
             animate={{ y: 0, scale: 1, opacity: 1 }}
             exit={{ y: -25, scale: 0.9, opacity: 0 }}
             transition={{ type: "spring" }}
-            className="p-4 w-80 flex items-start rounded-lg gap-2 text-sm font-medium shadow-lg text-white bg-violet-600 fixed z-50 bottom-4 right-4"
+            className={`p-4 w-80 flex items-start justify-between rounded-lg gap-2 text-sm font-medium shadow-lg text-white fixed z-50 bottom-4 right-4 ${success ? "bg-emerald-600" : "bg-violet-600"}`}
         >
-            <CircleAlert className="text-3xl absolute -top-4 -left-4 p-2 rounded-full bg-white text-violet-600 shadow" />
+            {success ? <Check className="text-3xl absolute -top-4 -left-4 p-1 rounded-full bg-white text-emerald-600 shadow" /> : <CircleAlert className="text-3xl absolute -top-4 -left-4  rounded-full bg-white text-violet-600 shadow" />}
             <span>{text}</span>
             <button onClick={() => removeNotif(id)} className="ml-auto mt-0.5">
-                <X />
+                <X size={18} />
             </button>
         </motion.div>
     );
