@@ -76,6 +76,11 @@ export async function claimTokens(
     console.error("No address provided.");
     return { message: "No address provided.", success: false };
   }
+  // address validation
+  if (!ethers.isAddress(address)) {
+    console.error("Invalid address provided.");
+    return { message: "Invalid address provided.", success: false };
+  }
   console.log(`Claiming tokens for address: ${address}`);
   try {
     await sendTransaction(address);
