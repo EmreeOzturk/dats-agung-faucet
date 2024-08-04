@@ -32,7 +32,7 @@ async function hasClaimed(address: string) {
     return false;
   }
   const now = Math.floor(Date.now() / 1000);
-  return now - lastClaimed < 24 * 60 * 60;
+  return now - lastClaimed < 12 * 60 * 60;
 }
 
 async function recordClaim(address: string) {
@@ -44,7 +44,7 @@ async function recordClaim(address: string) {
 async function sendTransaction(toAddress: string) {
   const hasClaimedRecently = await hasClaimed(toAddress);
   if (hasClaimedRecently) {
-    throw new Error("Address has already claimed in the last 24 hours.");
+    throw new Error("Address has already claimed in the last 12 hours.");
   }
 
   const tx = {
