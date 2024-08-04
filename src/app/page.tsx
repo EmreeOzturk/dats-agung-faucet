@@ -1,4 +1,4 @@
-export const maxDuration = 30;
+export const maxDuration = 40;
 import Aurora from "@/components/aurora";
 
 const Page = () => {
