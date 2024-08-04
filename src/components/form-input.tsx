@@ -17,9 +17,6 @@ const FormInput = ({
             whileHover={{
                 scale: 1.015,
             }}
-            whileTap={{
-                scale: 0.985,
-            }}
             type="text"
             name="address"
             placeholder="Enter your address"

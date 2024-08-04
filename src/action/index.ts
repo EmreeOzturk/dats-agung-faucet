@@ -2,6 +2,7 @@
 
 import { ethers } from "ethers";
 import fs from "fs";
+import { Mutex } from "async-mutex";
 
 // Replace with your Ethereum node URL
 const provider = new ethers.JsonRpcProvider(
@@ -14,6 +15,7 @@ const wallet = new ethers.Wallet(PRIVATE_KEY!, provider);
 // in tmp/claims.json
 const CLAIMS_FILE = "/tmp/claims.json";
 
+const mutex = new Mutex();
 function loadClaims() {
   if (fs.existsSync(CLAIMS_FILE)) {
     return JSON.parse(fs.readFileSync(CLAIMS_FILE, "utf-8"));
@@ -42,18 +44,18 @@ async function recordClaim(address: string) {
 }
 
 async function sendTransaction(toAddress: string) {
-  const hasClaimedRecently = await hasClaimed(toAddress);
-  if (hasClaimedRecently) {
-    throw new Error("Address has already claimed in the last 12 hours.");
-  }
-
-  const tx = {
-    to: toAddress,
-    value: ethers.parseEther("0.1"),
-    gasLimit: 21000,
-  };
-
+  const release = await mutex.acquire();
   try {
+    const hasClaimedRecently = await hasClaimed(toAddress);
+    if (hasClaimedRecently) {
+      throw new Error("Address has already claimed in the last 12 hours.");
+    }
+    const tx = {
+      to: toAddress,
+      value: ethers.parseEther("0.1"),
+      gasLimit: 21000,
+    };
+
     const transaction = await wallet.sendTransaction(tx);
     console.log(`Transaction sent with hash: ${transaction.hash}`);
     const receipt = await transaction.wait();
@@ -63,6 +65,9 @@ async function sendTransaction(toAddress: string) {
     await recordClaim(toAddress);
   } catch (error: any) {
     console.error(`Transaction failed: ${error?.message}`);
+    throw error;
+  } finally {
+    release();
   }
 }
 export type ResponseType = { success: boolean; message?: string };
@@ -84,7 +89,6 @@ export async function claimTokens(
   console.log(`Claiming tokens for address: ${address}`);
   try {
     await sendTransaction(address);
-    // await new Promise((resolve) => setTimeout(resolve, 3000));
     return { success: true, message: "Tokens claimed successfully." };
   } catch (error: any) {
     return { message: error.message, success: false };
