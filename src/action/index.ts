@@ -11,7 +11,7 @@ const provider = new ethers.JsonRpcProvider(
 const PRIVATE_KEY = process.env.PRIVATE_KEY;
 const wallet = new ethers.Wallet(PRIVATE_KEY!, provider);
 
-const CLAIMS_FILE = process.cwd() + "/claims.json";
+const CLAIMS_FILE = "/claims.json";
 
 function loadClaims() {
   if (fs.existsSync(CLAIMS_FILE)) {
