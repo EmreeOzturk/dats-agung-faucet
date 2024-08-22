@@ -84,7 +84,7 @@ const Aurora = () => {
                     </span>
                 </span>
                 <h1 className="max-w-5xl bg-gradient-to-br from-white to-gray-400 bg-clip-text text-center text-3xl font-medium leading-tight text-transparent sm:text-5xl sm:leading-tight md:text-7xl md:leading-tight">
-                    Obtain AGUNG Testnet tokens every 24 hours for seamless and confident testnet.
+                    Obtain AGUNG Testnet tokens every 12 hours for seamless and confident testnet.
                 </h1>
                 {/* <p className="my-6 max-w-xl text-center text-base leading-relaxed md:text-lg md:leading-relaxed">
           Agung Test Network faucet prepared with the contributions of DATSProject.

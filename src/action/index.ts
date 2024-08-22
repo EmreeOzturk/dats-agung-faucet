@@ -52,7 +52,7 @@ async function sendTransaction(toAddress: string) {
     }
     const tx = {
       to: toAddress,
-      value: ethers.parseEther("0.1"),
+      value: ethers.parseEther("0.2"),
       gasLimit: 21000,
     };
 
