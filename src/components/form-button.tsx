@@ -20,7 +20,7 @@ const FormButton = ({ border }: { border: any }) => {
         >
             {pending ?
                 <LoaderCircle size={20} className='text-sky-500 animate-spin' />
-                : "Send 0.10 AGNG"}
+                : "Send 0.20 AGNG"}
         </motion.button>
     )
 }
