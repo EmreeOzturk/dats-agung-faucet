@@ -167,7 +167,7 @@ async function sendTransaction(toAddress: string, ip: string) {
     }
     
     const balance = await provider.getBalance(toAddress);
-    const maxBalance = ethers.parseEther("1.0");
+    const maxBalance = ethers.parseEther("0.3");
     
     if (balance > maxBalance) {
       throw new Error("Address already has sufficient tokens");
