@@ -3,7 +3,6 @@
 import { ethers } from "ethers";
 import fs from "fs";
 import { Mutex } from "async-mutex";
-export const maxDuration = 60;
 const provider = new ethers.JsonRpcProvider(
   "https://rpcpc1-qa.agung.peaq.network"
 );
