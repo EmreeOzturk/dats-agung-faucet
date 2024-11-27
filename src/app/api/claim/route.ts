@@ -2,6 +2,10 @@ import { headers } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 import { claimTokens } from '@/action'
 
+
+
+export const maxDuration = 60;
+
 export async function POST(request: NextRequest) {
     try {
         // Get client IP from headers
