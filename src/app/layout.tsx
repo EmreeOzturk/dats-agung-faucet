@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Actor } from "next/font/google";
 import "./globals.css";
 import { SpeedInsights } from "@vercel/speed-insights/next"
-import Script from "next/script";
+// import Script from "next/script";
 const inter = Actor({ weight: ["400"], subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -17,13 +17,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
+      {/* <head>
         <Script
           defer
           src="/umami.js"
           data-website-id="0d77b307-3e60-4821-af5d-4edc50bc936e"
         />
-      </head>
+      </head> */}
       <body className={`${inter.className} select-none overflow-hidden`}>{children}
         <SpeedInsights />
       </body>
