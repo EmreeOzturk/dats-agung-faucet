@@ -4,7 +4,7 @@ import { ethers } from "ethers";
 import fs from "fs";
 import { Mutex } from "async-mutex";
 const provider = new ethers.JsonRpcProvider(
-  "https://rpcpc1-qa.agung.peaq.network"
+  "https://erpc-async.agung.peaq.network"
 );
 
 const PRIVATE_KEY = process.env.PRIVATE_KEY;
