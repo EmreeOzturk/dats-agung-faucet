@@ -172,22 +172,29 @@ async function sendTransaction(toAddress: string, ip: string) {
       throw new Error("Address already has sufficient tokens");
     }
     
-    const tx = {
-      to: toAddress,
-      value: ethers.parseEther("0.2"),
-      gasLimit: 21000,
-    };
+    try {
+      const tx = {
+        to: toAddress,
+        value: ethers.parseEther("0.2"),
+        gasLimit: 21000,
+      };
 
-    const transaction = await wallet.sendTransaction(tx);
-    console.log(`Transaction sent with hash: ${transaction.hash}`);
-    const receipt = await transaction.wait();
-    console.log(
-      `Transaction successful with hash: ${receipt?.hash} and block number: ${receipt?.blockNumber}`
-    );
-    await recordClaim(toAddress, ip);
+      const transaction = await wallet.sendTransaction(tx);
+      console.log(`Transaction sent with hash: ${transaction.hash}`);
+      const receipt = await transaction.wait();
+      console.log(
+        `Transaction successful with hash: ${receipt?.hash} and block number: ${receipt?.blockNumber}`
+      );
+      await recordClaim(toAddress, ip);
+    } catch (txError: any) {
+      // Handle transaction-specific errors
+      if (txError.code === 'TIMEOUT' || txError.message.includes('timeout')) {
+        throw new Error("Network is busy. Please try again in a few minutes.");
+      }
+      throw txError;
+    }
   } catch (error: any) {
     console.error(`Transaction failed: ${error?.message}`);
-    // Log the real error for monitoring but return a generic message
     throw new Error(error.message);
   } finally {
     release();

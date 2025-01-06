@@ -64,14 +64,34 @@ const Aurora = () => {
                 method: 'POST',
                 body: formData
             });
-            const result = await response.json();
             
+            // Handle timeout and server errors
+            if (!response.ok) {
+                if (response.status === 524 || response.status === 504) {
+                    setState({ 
+                        success: false, 
+                        message: "Network is busy. Please try again in a few minutes." 
+                    });
+                    return;
+                }
+            }
+
+            const result = await response.json();
             setState(result);
             
             if (!result.success) {
                 throw new Error(result.message);
             }
         } catch (error: any) {
+            // Handle network errors and timeouts
+            if (error.name === 'TypeError' || error.message.includes('fetch')) {
+                setState({ 
+                    success: false, 
+                    message: "Network is busy. Please try again in a few minutes." 
+                });
+                return;
+            }
+            
             setState({ 
                 success: false, 
                 message: error.message 
